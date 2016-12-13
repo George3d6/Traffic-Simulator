@@ -13,7 +13,7 @@ class CreationActor() extends Actor{
   val log = Logging(context.system, this)
   def receive = {
     case creationTimestamp : BigInt => {
-      val car = new CarActor()
+      //val car = new CarActor()
     }
     case _      => {
       log.info("received unknown instruction")

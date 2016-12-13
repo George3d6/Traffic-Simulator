@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="SBT: com.graphhopper:graphhopper-core:0.8.2:jar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.ivy2/cache/com.graphhopper/graphhopper-core/jars/graphhopper-core-0.8.2.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.ivy2/cache/com.graphhopper/graphhopper-core/srcs/graphhopper-core-0.8.2-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

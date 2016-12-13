@@ -21,9 +21,17 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="SBT: com.typesafe:config:1.3.0:jar" level="project" />
+    <orderEntry type="library" name="SBT: com.graphhopper:directions-api-java-client:0.8.2.1:jar" level="project" />
+    <orderEntry type="library" name="SBT: org.slf4j:slf4j-api:1.7.21:jar" level="project" />
     <orderEntry type="library" name="SBT: org.scala-lang.modules:scala-java8-compat_2.12:0.8.0:jar" level="project" />
     <orderEntry type="library" name="SBT: org.scala-lang:scala-library:2.12.1:jar" level="project" />
+    <orderEntry type="library" name="SBT: org.json:json:20160212:jar" level="project" />
+    <orderEntry type="library" name="SBT: net.sf.trove4j:trove4j:3.0.3:jar" level="project" />
     <orderEntry type="library" name="SBT: com.typesafe.akka:akka-actor_2.12:2.4.14:jar" level="project" />
+    <orderEntry type="library" name="SBT: com.typesafe:config:1.3.0:jar" level="project" />
+    <orderEntry type="library" name="SBT: com.squareup.okio:okio:1.9.0:jar" level="project" />
+    <orderEntry type="library" name="SBT: com.squareup.okhttp3:okhttp:3.4.1:jar" level="project" />
+    <orderEntry type="library" name="SBT: com.graphhopper:graphhopper-tools-lgpl:0.8.2:jar" level="project" />
+    <orderEntry type="library" name="SBT: com.graphhopper:graphhopper-core:0.8.2:jar" level="project" />
   </component>
 </module>

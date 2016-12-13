@@ -11,5 +11,6 @@ resolvers +=
 libraryDependencies +=
   "com.typesafe.akka" %% "akka-actor" % "2.4.14"
 
+
 libraryDependencies +=
   "com.graphhopper" % "directions-api-java-client" % "0.8.2.1"

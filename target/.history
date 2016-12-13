@@ -23,3 +23,18 @@ update
 reload
 compile
 run
+update
+reload
+update
+sbt run
+run
+reload
+update
+compile
+sbt compile
+compile
+run
+compile
+run
+compile
+run
