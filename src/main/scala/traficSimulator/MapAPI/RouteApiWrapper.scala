@@ -1,12 +1,9 @@
 package traficSimulator.MapAPI
 
-import com.graphhopper.GHRequest
-import com.graphhopper.GHResponse
+import com.graphhopper.{GHRequest, GHResponse, PathWrapper}
 import com.graphhopper.api.GraphHopperWeb
-import com.graphhopper.util.shapes.{GHPoint, GHPoint3D}
 import com.graphhopper.util.DistanceCalcEarth
-import com.graphhopper.util.PointList
-import com.graphhopper.PathWrapper
+import com.graphhopper.util.shapes.GHPoint
 import traficSimulator.Point
 
 import scala.collection.mutable.ListBuffer;
@@ -36,6 +33,7 @@ class RouteApiWrapper() {
 
 
     val wayPoints = res.getPoints
+
     val listOfPoints = new ListBuffer[Point]()
     wayPoints.forEach(v => {
       listOfPoints += new Point(v.getLat, v.getLon)

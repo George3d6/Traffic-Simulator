@@ -1,6 +1,6 @@
 package traficSimulator
 
-import MapAPI.RouteApiWrapper
+import traficSimulator.MapAPI.RouteApiWrapper
 
 object TraficSimulator {
   def main(args: Array[String]) = {
