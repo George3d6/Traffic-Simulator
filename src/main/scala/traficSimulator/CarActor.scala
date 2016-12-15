@@ -15,20 +15,15 @@ class CarActor(route : Array[Point], timezone : BigInt, carId : BigInt) extends 
   def receive = {
     //Only request a car can recieve its for its current position
     //This will be computed based on its internal state and the route it follows
-    case "get_position" => {
-      val location: Point = computePoint()
-      sender ! location
+    case ("get_position", timeInSec : Double) => {
+      val distanceTraveled = computeMeanSpeed*timeInSec
+      val location: Point = Point.projectPoint(from, to, distanceTraveled)
+      from = location
+      sender ! (location, carId)
     }
     case _ => {
       log.info("Unknown message recieved by car with id: ", carId)
     }
-  }
-
-  //
-  def computePoint() : Point = {
-    val computedPoint = null
-    lastAt = computedPoint
-    computedPoint
   }
 
   //The car has a point where the route begins and one where the route ends
@@ -54,5 +49,10 @@ class CarActor(route : Array[Point], timezone : BigInt, carId : BigInt) extends 
   //Varriance, determined by both road conditions and the driver himself, determines
   //how much the shifts in speed are
   private val variance : Int = 3
+
+  //Compute average speed
+  def computeMeanSpeed() : Double = {
+    20.0
+  }
 
 }

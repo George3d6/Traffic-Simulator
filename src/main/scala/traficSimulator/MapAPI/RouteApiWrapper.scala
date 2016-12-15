@@ -8,7 +8,7 @@ import traficSimulator.Point
 
 import scala.collection.mutable.ListBuffer;
 
-class RouteApiWrapper() {
+object RouteApiWrapper {
   val distanceCalculator = new DistanceCalcEarth()
   val ghr = new GraphHopperWeb("http://localhost:8989/route")
 
@@ -36,8 +36,12 @@ class RouteApiWrapper() {
 
     val listOfPoints = new ListBuffer[Point]()
     wayPoints.forEach(v => {
-      listOfPoints += new Point(v.getLat, v.getLon)
+      listOfPoints += new Point(v.getLat, v.getLon, true)
     })
     listOfPoints
+  }
+
+  def getRandomPoint : Point = {
+    new Point(50,10,true)
   }
 }
