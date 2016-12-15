@@ -26,7 +26,7 @@ class CarHolderActor() extends Actor {
       carList.foreach(carEntity => {
         val carId = carEntity._1
         val car = carEntity._2
-        log.info("At current timestamp I hold $car with id $carId")
+        log.info(s"At current timestamp I hold $car with id $carId")
       })
     }
     case _      => {
