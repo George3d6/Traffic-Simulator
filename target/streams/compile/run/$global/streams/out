@@ -1,8 +1,7 @@
 [0m[[0minfo[0m] [0mRunning traficSimulator.TraficSimulator [0m
 [0m[[0mdebug[0m] [0mWaiting for threads to exit or System.exit to be called.[0m
-[0m[[0mdebug[0m] [0mWaiting for thread run-main-0 to terminate.[0m
 [0m[[0mdebug[0m] [0m  Classpath:[0m
-[0m[[0mdebug[0m] [0m	/home/george/DS/traficSimulator/target/scala-2.12/classes[0m
+[0m[[0mdebug[0m] [0m	/home/george/ProjectsOT/traficSimulator/target/scala-2.12/classes[0m
 [0m[[0mdebug[0m] [0m	/home/george/.ivy2/cache/org.scala-lang/scala-library/jars/scala-library-2.12.1.jar[0m
 [0m[[0mdebug[0m] [0m	/home/george/.ivy2/cache/com.typesafe.akka/akka-actor_2.12/jars/akka-actor_2.12-2.4.14.jar[0m
 [0m[[0mdebug[0m] [0m	/home/george/.ivy2/cache/com.typesafe/config/bundles/config-1.3.0.jar[0m
@@ -15,13 +14,6 @@
 [0m[[0mdebug[0m] [0m	/home/george/.ivy2/cache/com.squareup.okhttp3/okhttp/jars/okhttp-3.4.1.jar[0m
 [0m[[0mdebug[0m] [0m	/home/george/.ivy2/cache/com.squareup.okio/okio/jars/okio-1.9.0.jar[0m
 [0m[[0mdebug[0m] [0m	/home/george/.ivy2/cache/org.json/json/bundles/json-20160212.jar[0m
+[0m[[0mdebug[0m] [0mWaiting for thread run-main-0 to terminate.[0m
 [0m[[0mdebug[0m] [0m	Thread run-main-0 exited.[0m
-[0m[[0mdebug[0m] [0mInterrupting remaining threads (should be all daemons).[0m
-[0m[[0mdebug[0m] [0mInterrupting thread Okio Watchdog[0m
-[0m[[0mdebug[0m] [0m	Interrupted Okio Watchdog[0m
-[0m[[0mdebug[0m] [0mInterrupting thread OkHttp ConnectionPool[0m
-[0m[[0mdebug[0m] [0m	Interrupted OkHttp ConnectionPool[0m
-[0m[[0mdebug[0m] [0mInterrupting thread Thread-1[0m
-[0m[[0mdebug[0m] [0m	Interrupted Thread-1[0m
-[0m[[0mdebug[0m] [0mSandboxed run complete..[0m
-[0m[[0mdebug[0m] [0mExited with code 0[0m
+[0m[[0mdebug[0m] [0mWaiting for thread TrafficSimulatorSystem-scheduler-1 to terminate.[0m
