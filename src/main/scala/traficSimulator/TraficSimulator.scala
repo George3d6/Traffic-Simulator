@@ -28,10 +28,25 @@ object TraficSimulator {
 
     //The loops basically represents the simulation advancing in time
     //YES, the timestamp should have arguably be wrapped in a monad but I don't care so much right now
-    val run = ses.scheduleAtFixedRate(() => {
-      carHolder ! (500 : BigInt)
-      timestamp = timestamp + 500
-    }, 0, 1000, TimeUnit.MICROSECONDS)
+    val nothing = runSimmulation(timestamp, (time : Double) => {
+      println(s"Now its the time $time")
+    }, 1000, 500, 20, 0)
 
+  }
+
+  def runSimmulation(timestamp : Double, callback: (Double) => Unit, callFrequency : Double, speed : Long, maxIttNr : BigInt, ittNr : BigInt = 0): Double = {
+    if(ittNr == 0) {
+      println(s"Started at timestamp $timestamp")
+    }
+    callback(timestamp)
+    Thread.sleep(speed)
+    println(ittNr)
+    println(maxIttNr)
+    if(ittNr < maxIttNr) {
+      runSimmulation(timestamp + callFrequency, callback, callFrequency, speed, maxIttNr, ittNr + 1)
+    } else {
+      println(s"Stopped at timestamp $timestamp")
+      timestamp
+    }
   }
 }

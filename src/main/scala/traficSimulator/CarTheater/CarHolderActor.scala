@@ -6,7 +6,7 @@ import akka.event.Logging
 /**
   * Created by george on 12/15/16.
   */
-
+/* Remove this, use creationActor childrens for access
 object CarHolderActor {
   def props(): Props
   = Props(new CarHolderActor())
@@ -35,3 +35,4 @@ class CarHolderActor() extends Actor {
   }
 
 }
+*/

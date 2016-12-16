@@ -5,11 +5,11 @@ package traficSimulator.MapAPI
   */
 object Calculator {
   //Approximation of earth's radius [Meters]
-  final val RadiusOfEarth : Double = 6371000
+  val RadiusOfEarth : Double = 6371000
   //Latitude close to the middle of Germany's map
-  final val CentralLatitude = 52
+  val CentralLatitude = 52
   //Cosine of said latitude
-  final val CentralLatCos = Math.cos(Math.toRadians(CentralLatitude))
+  val CentralLatCos = Math.cos(Math.toRadians(CentralLatitude))
 
 
   //Project to 2d cartesian plane, assumes earth is a sphere
