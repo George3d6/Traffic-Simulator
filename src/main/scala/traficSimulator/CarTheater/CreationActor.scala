@@ -21,7 +21,7 @@ class CreationActor(private val carsHolder : ActorRef) extends Actor{
   def receive = {
     case creationTimestamp : BigInt => {
       val carId = generateUniqueId
-      val carProps = Props(classOf[CarActor],
+      val carProps : Props = Props(classOf[CarActor],
           RouteApiWrapper.returnRoute(
           RouteApiWrapper.getRandomPoint,
           RouteApiWrapper.getRandomPoint
@@ -29,10 +29,7 @@ class CreationActor(private val carsHolder : ActorRef) extends Actor{
         creationTimestamp,
         carId
       )
-      val car : ActorRef= context.actorOf(carProps)
-      log.info(s"Added car with id $carId into the system" +
-        s" at timestmp $creationTimestamp")
-      carsHolder ! (car, carId)
+      carsHolder ! (carProps, carId)
     }
     case _      => {
       log.info("received unknown instruction")
@@ -40,6 +37,6 @@ class CreationActor(private val carsHolder : ActorRef) extends Actor{
   }
 
   private def generateUniqueId() : BigInt = {
-    Random.nextInt
+    Math.abs(Random.nextInt)
   }
 }

@@ -8,33 +8,46 @@ import traficSimulator.CarTheater.{CarHolderActor, CollectorActor, CreationActor
 object TraficSimulator {
   def main(args: Array[String])= {
 
-    var timestamp : Long = System.currentTimeMillis()
+    //Get the current timestamp, we assume the start time of the simulation is whenever the program starts running
+    //If you want to change the start time change this value
+    val timestamp : Long = System.currentTimeMillis()
 
+    /*
+    *  Initialize the actor system and the three top level actors we use for this simulation
+    *  the creator adds cars to the simulation, the collector pipes data to kafka
+    *  and the holder is a router to the cars in order to update them with info about the simulation
+     */
     val traficSimulatorActorSystem = ActorSystem("TrafficSimulatorSystem")
 
-    val carHolder = traficSimulatorActorSystem.actorOf(Props[
-      CarHolderActor])
+    val holder = traficSimulatorActorSystem.actorOf(Props[
+      CarHolderActor], "holder")
 
     val creator = traficSimulatorActorSystem.actorOf(Props(classOf[
-      CreationActor], carHolder))
+      CreationActor], holder), "creator")
 
     val collector = traficSimulatorActorSystem.actorOf(Props[
-      CollectorActor])
+      CollectorActor], "collector")
+    //
 
     creator ! (32424000 : BigInt)
     creator ! (3123423 : BigInt)
-
-    val ses : ScheduledExecutorService = Executors.newSingleThreadScheduledExecutor()
+    holder ! (3999 : BigInt)
 
     //The loops basically represents the simulation advancing in time
-    //YES, the timestamp should have arguably be wrapped in a monad but I don't care so much right now
+    //YES, the timestamp should have arguably be wrapped in a monad but I don't care that much right now
     val nothing = runSimmulation(timestamp, (time : Double) => {
       println(s"Now its the time $time")
     }, 1000, 500, 20, 0)
 
   }
 
-  def runSimmulation(timestamp : Double, callback: (Double) => Unit, callFrequency : Double, speed : Long, maxIttNr : BigInt, ittNr : BigInt = 0): Double = {
+  //Function used to simulate the advancement of time. Takes as argument: an unix timestamp (the beginning time),
+  //Callback function to execute with each itteration (nothing is done with the callbacks return value)
+  //By How much to update the timestamp with each iteration, Frequency at which to run a new iteration (in milliseconds),
+  //Number of iterations and [at which itteration to start, defaults at 0]
+  //Returns the ("simulated") timestamp at which it stops running
+  def runSimmulation(timestamp : Double, callback: (Double) => Unit, timestampIncrease : Double,
+                     speed : Long, maxIttNr : BigInt, ittNr : BigInt = 0): Double = {
     if(ittNr == 0) {
       println(s"Started at timestamp $timestamp")
     }
@@ -43,7 +56,7 @@ object TraficSimulator {
     println(ittNr)
     println(maxIttNr)
     if(ittNr < maxIttNr) {
-      runSimmulation(timestamp + callFrequency, callback, callFrequency, speed, maxIttNr, ittNr + 1)
+      runSimmulation(timestamp + timestampIncrease, callback, timestampIncrease, speed, maxIttNr, ittNr + 1)
     } else {
       println(s"Stopped at timestamp $timestamp")
       timestamp

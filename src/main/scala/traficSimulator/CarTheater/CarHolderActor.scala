@@ -6,7 +6,7 @@ import akka.event.Logging
 /**
   * Created by george on 12/15/16.
   */
-/* Remove this, use creationActor childrens for access
+
 object CarHolderActor {
   def props(): Props
   = Props(new CarHolderActor())
@@ -14,19 +14,16 @@ object CarHolderActor {
 
 class CarHolderActor() extends Actor {
   val log = Logging(context.system, this)
-  var carList : Map[BigInt, ActorRef] = Map()
 
   def receive = {
-    case (car : ActorRef, carId : BigInt) => {
-      carList = carList + (carId -> car)
-      log.info("Got car")
+    case (carProps : Props, carId : BigInt) => {
+      val car : ActorRef= context.actorOf(carProps, "car-" + carId)
+      log.info(s"Got car $car")
     }
     case timestamp : BigInt => {
       log.info("Showing off my cars")
-      carList.foreach(carEntity => {
-        val carId = carEntity._1
-        val car = carEntity._2
-        log.info(s"At current timestamp I hold $car with id $carId")
+      this.context.children.foreach((car) => {
+        log.info(s"I have car $car")
       })
     }
     case _      => {
@@ -35,4 +32,3 @@ class CarHolderActor() extends Actor {
   }
 
 }
-*/
