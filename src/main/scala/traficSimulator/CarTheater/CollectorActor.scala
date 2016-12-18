@@ -1,16 +1,13 @@
 package traficSimulator.CarTheater
 
+import traficSimulator.MapAPI.Point
 import akka.actor.Actor
 import akka.event.Logging
-import traficSimulator.MapAPI.Point
-
 /**
   * Created by george on 12/11/16.
   */
 
-object CollectorActor {
 
-}
 
 class CollectorActor() extends Actor{
   val log = Logging(context.system, this)

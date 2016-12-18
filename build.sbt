@@ -14,3 +14,6 @@ libraryDependencies +=
 
 libraryDependencies +=
   "com.graphhopper" % "directions-api-java-client" % "0.8.2.1"
+
+libraryDependencies +=
+  "org.apache.kafka" % "kafka_2.11" % "0.10.1.0"

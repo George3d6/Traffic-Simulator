@@ -19,7 +19,7 @@ class CreationActor(private val carsHolder : ActorRef) extends Actor{
   val log = Logging(context.system, this)
 
   def receive = {
-    case creationTimestamp : BigInt => {
+    case creationTimestamp : Double  => {
       val carId = generateUniqueId
       val carProps : Props = Props(classOf[CarActor],
           RouteApiWrapper.returnRoute(

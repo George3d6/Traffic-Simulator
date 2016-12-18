@@ -8,22 +8,23 @@ import traficSimulator.MapAPI.{Calculator, Point}
 object CarActor {
   val maxSpeed : Double = 60
   val minSpeed : Double = 0
-  def props(route : Array[Point], timestampCreated: BigInt, carId : BigInt): Props
+  def props(route : Array[Point], timestampCreated: Double, carId : BigInt): Props
   = Props(new CarActor(route, timestampCreated, carId))
 }
 
 //The car actor receives its current positions from a SimulatorActor and sends it to a CollectorActor
-class CarActor(route : Array[Point], timestampCreated : BigInt, carId : BigInt) extends Actor {
+class CarActor(route : Array[Point], timestampCreated : Double, carId : BigInt) extends Actor {
   val log = Logging(context.system, this)
 
   def receive = {
     //Only request a car can recieve its for its current position
     //This will be computed based on its internal state and the route it follows
     case ("get_position", timeInSec : Double, collector : ActorRef) => {
-      val distanceTraveled = computeMeanSpeed*timeInSec
+      computeMeanSpeed
+      val distanceTraveled = timeInSec * speed
       val location: Point = Calculator.projectPoint(from, to, distanceTraveled)
       from = location
-      collector ! (location, carId)
+      collector ! (location, speed, carId)
     }
     case _ => {
       log.info("Unknown message recieved by car with id: ", carId)

@@ -10,7 +10,7 @@ object TraficSimulator {
 
     //Get the current timestamp, we assume the start time of the simulation is whenever the program starts running
     //If you want to change the start time change this value
-    val timestamp : Long = System.currentTimeMillis()
+    val timestamp : Double = System.currentTimeMillis()
 
     /*
     *  Initialize the actor system and the three top level actors we use for this simulation
@@ -29,15 +29,21 @@ object TraficSimulator {
       CollectorActor], "collector")
     //
 
-    creator ! (32424000 : BigInt)
-    creator ! (3123423 : BigInt)
-    holder ! (3999 : BigInt)
+    KafkaProducer.sendToKafka
+    creator ! timestamp
+    creator ! timestamp
+    creator ! timestamp
+    creator ! timestamp
+    creator ! timestamp
+    creator ! timestamp
+    creator ! timestamp
+    //holder ! (3999 : BigInt)
 
     //The loops basically represents the simulation advancing in time
     //YES, the timestamp should have arguably be wrapped in a monad but I don't care that much right now
-    val nothing = runSimmulation(timestamp, (time : Double) => {
-      println(s"Now its the time $time")
-    }, 1000, 500, 20, 0)
+    //val nothing = runSimmulation(timestamp, (time : Double) => {
+    //  println(s"Now its the time $time")
+    //}, 1000, 500, 1, 0)
 
   }
 

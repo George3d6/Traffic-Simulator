@@ -16,22 +16,35 @@ object Calculator {
   //Only accurate for samll distances (a few km, not a few hundred km)
   def toCartesian(lat : Double, lon : Double) : (Double, Double) = {
     //Equirectangular projection
+
     val x : Double = RadiusOfEarth*Math.toRadians(lon)*CentralLatCos
     val y : Double = RadiusOfEarth*Math.toRadians(lat)
     (x, y)
+    /*
+    val x : Double = (Math.toRadians(lon) + 180) / 360 * RadiusOfEarth
+    val y = ((1 - Math.log(Math.tan(lat * Math.PI / 180) + 1 / Math.cos(lat * Math.PI / 180)) / Math.PI) / 2 * Math.pow(2, 0)) * RadiusOfEarth;
+    (x, y)
+    */
   }
 
   def toSpherical(x : Double, y : Double) : (Double, Double) = {
+
     val lat : Double = Math.toDegrees(y/RadiusOfEarth)
     val lon : Double = Math.toDegrees( x/(RadiusOfEarth*CentralLatCos) )
     (lat, lon)
+    /*
+    val lon = x / RadiusOfEarth * 360 - 180;
+    val n = Math.PI - 2 * Math.PI * y / RadiusOfEarth;
+    val lat = (180 / Math.PI * Math.atan(0.5 * (Math.exp(n) - Math.exp(-n))));
+    (lat, lon)
+    */
   }
 
   //Computed the distance between two points
   def computedDistance(p1 : Point, p2 : Point) : Double = {
     val dx = p2.x - p1.x
     val dy = p2.y - p1.y
-    Math.sqrt(dx*dx - dy*dy)
+    Math.sqrt(dx*dx + dy*dy)
   }
 
   //Given two points, project a third point at "distance" from the first point on the straight line joining
@@ -39,7 +52,7 @@ object Calculator {
   def projectPoint(p1 : Point, p2 : Point, distance : Double) : Point = {
     val dx = p2.x - p1.x
     val dy = p2.y - p1.y
-    val length = Math.sqrt(dx*dx - dy*dy)
+    val length = Math.sqrt(dx*dx + dy*dy)
     new Point(
       //Starting y + cosine(slope)*distance
       p1.x + (dx/length)*distance,
