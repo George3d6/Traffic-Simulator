@@ -31,7 +31,7 @@ object TraficSimulator {
 
 
     //Create some cars
-    1 to 500 foreach { _ => creator ! timestamp }
+    1 to 1500 foreach { _ => creator ! timestamp }
 
     //holder ! (3999 : BigInt)
 
