@@ -19,31 +19,27 @@ object TraficSimulator {
      */
     val traficSimulatorActorSystem = ActorSystem("TrafficSimulatorSystem")
 
-    val holder = traficSimulatorActorSystem.actorOf(Props[
-      CarHolderActor], "holder")
+    val collector = traficSimulatorActorSystem.actorOf(Props[
+      CollectorActor], "collector")
+
+    val holder = traficSimulatorActorSystem.actorOf(Props(classOf[
+      CarHolderActor], collector), "holder")
 
     val creator = traficSimulatorActorSystem.actorOf(Props(classOf[
       CreationActor], holder), "creator")
 
-    val collector = traficSimulatorActorSystem.actorOf(Props[
-      CollectorActor], "collector")
-    //
 
-    KafkaProducer.sendToKafka
-    creator ! timestamp
-    creator ! timestamp
-    creator ! timestamp
-    creator ! timestamp
-    creator ! timestamp
-    creator ! timestamp
-    creator ! timestamp
+
+    //Create some cars
+    1 to 500 foreach { _ => creator ! timestamp }
+
     //holder ! (3999 : BigInt)
 
     //The loops basically represents the simulation advancing in time
     //YES, the timestamp should have arguably be wrapped in a monad but I don't care that much right now
-    //val nothing = runSimmulation(timestamp, (time : Double) => {
-    //  println(s"Now its the time $time")
-    //}, 1000, 500, 1, 0)
+    val nothing = runSimmulation(timestamp, (time : Double) => {
+      holder ! time
+    }, 5000, 100, 500, 0)
 
   }
 

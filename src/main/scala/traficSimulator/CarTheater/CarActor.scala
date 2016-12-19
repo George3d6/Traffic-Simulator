@@ -19,31 +19,21 @@ class CarActor(route : Array[Point], timestampCreated : Double, carId : BigInt) 
   def receive = {
     //Only request a car can recieve its for its current position
     //This will be computed based on its internal state and the route it follows
-    case ("get_position", timeInSec : Double, collector : ActorRef) => {
-      computeMeanSpeed
-      val distanceTraveled = timeInSec * speed
-      val location: Point = Calculator.projectPoint(from, to, distanceTraveled)
-      from = location
-      collector ! (location, speed, carId)
+    case ("get_position", timeInMs : Double, collector : ActorRef) => {
+      computeMeanSpeed()
+      val distanceTraveled = (timeInMs/1000) * speed
+      val (gotAt, gotTo) = Calculator.getNextLocation(route, at, to, distanceTraveled)
+      at = gotAt
+      to = gotTo
+      collector ! (at, speed, timeInMs, carId)
     }
     case _ => {
       log.info("Unknown message recieved by car with id: ", carId)
     }
   }
 
-  //The car has a point where the route begins and one where the route ends
-  //These should remain constant throughout the "route"
-  private val start : Point = route(0)
-  private val finish : Point = route(route.length - 1)
-
-  //At any given point a car is inbetween two points in our route
-  //We shall call these points from, to. Their value can change
-  //After information is recieved
-  private var from : Point = start
-  private var to : Point = route(1)
-
-  //This is the point that was last send by compute point
-  private var lastAt : Point = start
+  private var at = route(0)
+  private var to = 1
 
   //Speed of the car (in m/s), this can change
   private var speed : Double = 16
