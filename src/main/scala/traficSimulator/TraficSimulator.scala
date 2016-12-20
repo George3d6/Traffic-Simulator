@@ -3,7 +3,7 @@ package traficSimulator
 import java.util.concurrent.{Executors, ScheduledExecutorService, TimeUnit}
 
 import akka.actor.{ActorSystem, Props}
-import traficSimulator.CarTheater.{CarHolderActor, CollectorActor, CreationActor}
+import traficSimulator.CarTheater.{CarHolderActor, CollectorActor, CreationActor, SimulationActor}
 
 object TraficSimulator {
   def main(args: Array[String])= {
@@ -19,28 +19,26 @@ object TraficSimulator {
      */
     val traficSimulatorActorSystem = ActorSystem("TrafficSimulatorSystem")
 
-    val collector = traficSimulatorActorSystem.actorOf(Props[
-      CollectorActor], "collector")
-
-    val holder = traficSimulatorActorSystem.actorOf(Props(classOf[
-      CarHolderActor], collector), "holder")
-
-    val creator = traficSimulatorActorSystem.actorOf(Props(classOf[
-      CreationActor], holder), "creator")
+    val simulator = traficSimulatorActorSystem.actorOf(Props[
+      SimulationActor])
 
 
 
     //Create some cars
-    1 to 1500 foreach { _ => creator ! timestamp }
+    1 to 3 foreach { _ => simulator ! ("create_car", timestamp) }
 
     //holder ! (3999 : BigInt)
 
     //The loops basically represents the simulation advancing in time
     //YES, the timestamp should have arguably be wrapped in a monad but I don't care that much right now
+    var i = 0
     val nothing = runSimmulation(timestamp, (time : Double) => {
-      holder ! time
-    }, 5000, 100, 500, 0)
-
+      i +=1
+      if(i%10 == 0 && i < 200) {
+        simulator ! ("create_car", time)
+      }
+      simulator ! ("send_messages", time)
+    }, 500, 1, 5000000, 0)
   }
 
   //Function used to simulate the advancement of time. Takes as argument: an unix timestamp (the beginning time),
@@ -55,8 +53,6 @@ object TraficSimulator {
     }
     callback(timestamp)
     Thread.sleep(speed)
-    println(ittNr)
-    println(maxIttNr)
     if(ittNr < maxIttNr) {
       runSimmulation(timestamp + timestampIncrease, callback, timestampIncrease, speed, maxIttNr, ittNr + 1)
     } else {

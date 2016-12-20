@@ -29,6 +29,8 @@ object RouteApiWrapper {
 
     val res : PathWrapper = fullRes.getBest
 
+    println(s"The graphhopper distance is ${res.getDistance}") //<= To prove formula works
+
     if(res.hasErrors)
       res.getErrors
 

@@ -15,22 +15,49 @@ object CarActor {
 //The car actor receives its current positions from a SimulatorActor and sends it to a CollectorActor
 class CarActor(route : Array[Point], timestampCreated : Double, carId : BigInt) extends Actor {
   val log = Logging(context.system, this)
-
+  var total : Double = 0
   def receive = {
     //Only request a car can recieve its for its current position
     //This will be computed based on its internal state and the route it follows
     case ("get_position", timeInMs : Double, collector : ActorRef) => {
-      computeMeanSpeed()
-      val distanceTraveled = (timeInMs/1000) * speed
-      val (gotAt, gotTo) = Calculator.getNextLocation(route, at, to, distanceTraveled)
-      at = gotAt
-      to = gotTo
-      collector ! (at, speed, timeInMs, carId)
+
+      if(at.latitude == route(0).latitude &&
+        at.longitude == route(0).longitude) {
+
+        val distanceTraveled = ((timeInMs - lastTime)/1000) * speed
+        val (gotAt, goTo, position) = Calculator.getNextLocation(route, at, to, distanceTraveled)
+        at = gotAt
+        to = goTo
+        collector ! (at, speed, timeInMs, "started", carId)
+        lastTime = timeInMs
+        total += distanceTraveled
+
+      } else {
+        computeMeanSpeed()
+        val distanceTraveled = ((timeInMs - lastTime)/1000) * speed
+        val (gotAt, goTo, position) = Calculator.getNextLocation(route, at, to, distanceTraveled)
+        at = gotAt
+        to = goTo
+        collector ! (at, speed, timeInMs, position, carId)
+        lastTime = timeInMs
+
+        if(position == "stop") {
+          log.info(s"Distance driven when I stoped was: ${total.toString}") //<= To prove formula works
+          context.parent ! ("restart", at, carId )
+          context.stop(self)
+        } else {
+          total += distanceTraveled
+        }
+
+      }
+
     }
     case _ => {
       log.info("Unknown message recieved by car with id: ", carId)
     }
   }
+
+  private var lastTime = timestampCreated
 
   private var at = route(0)
   private var to = 1
@@ -39,7 +66,7 @@ class CarActor(route : Array[Point], timestampCreated : Double, carId : BigInt) 
   private var speed : Double = 16
 
   //Aggresivity determined how much a driver will be willing to increase his speed
-  private val aggressivity : Double = 2
+  private val aggressivity : Double = 0.2
 
   //Varriance, determined by both road conditions and the driver himself, determines
   //how much the shifts in speed are
