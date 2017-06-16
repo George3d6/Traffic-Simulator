@@ -1,3 +1,6 @@
+--> This project is a "proof of concept" of sorts but I feel like it contains usefull code examples about the usage
+of the graphhopper java api, kafka and even some light weight aka actors example, so I shall keep it around.
+
 (This README.md instructs on how to install the project on Ubuntu 16.10)
 
 Most of it is copy-pasted from the official documentation here:
